@@ -106,19 +106,96 @@ function displayAddIncomeForm() {
 
 /**
  *
- *  清除JSON文件的数据
+ *  下方代码: 显示收入的函数
  *
  */
 
-// 显示 box
-function showBox() {
-  box.classList.add("active");
+function viewRecordsHandler() {
+  const currentDate = new Date();
+  document.querySelector(".main-content").innerHTML = `
+        <div class="title income-record">
+          <h1>income record
+            <span> ${currentDate}</span>
+          </h1>
+        </div>
+        <div class="table-container income-table">
+          <table id="recordsTable" class="data-table">
+              <thead>
+                  <tr>
+                      <th>Date</th>
+                      <th>Types</th>
+                      <th>Amount</th>
+                      </tr>
+              </thead>
+              <tbody id="tableBody">
+              </tbody>
+          </table>
+        </div>
+        <div id="totals" class="centered-text"></div>
+        `;
+  displayRecords();
 }
 
-// 隐藏 box
-function hideBox() {
-  box.classList.remove("active");
+//显示收入记录
+function displayRecords() {
+  fetch("/income_records_data")
+    .then((response) => response.json())
+    .then((transactions) => {
+      const tableBody = document.getElementById("tableBody");
+      const table = document.getElementById("recordsTable");
+      tableBody.innerHTML = "";
+
+      let cashTotal = 0;
+      let checkTotal = 0;
+
+      if (!transactions.cash.length && !transactions.check.length) {
+        tableBody.innerHTML = "<td colspan='3'>There's no Record Yet!</td>";
+        return;
+      }
+
+      function createRow(record, type) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                        <td>${record.time}</td>
+                        <td>${type}</td>
+                        <td>$ ${record.amount.toFixed(2)}</td>
+                    `;
+        tableBody.appendChild(row);
+
+        if (type === "Cash") cashTotal += record.amount;
+        else checkTotal += record.amount;
+      }
+
+      transactions.cash.forEach((record) => createRow(record, "Cash"));
+      transactions.check.forEach((record) => createRow(record, "Check"));
+
+      const tfoot = document.createElement("tfoot");
+      tfoot.innerHTML = `
+            <tr>  
+              <td></td>
+              <td>Cash Total</td>  
+              <td>$ ${cashTotal.toFixed(2)}</td>
+            </tr>
+            <tr>  
+              <td></td>
+              <td>Check Total</td>  
+              <td>$ ${checkTotal.toFixed(2)}</td>
+            </tr>
+            <tr>  
+              <td></td>
+              <td>Amount Total</td>  
+              <td>$ ${(cashTotal + checkTotal).toFixed(2)}</td>
+            </tr>
+          `;
+      table.appendChild(tfoot);
+    });
 }
+
+/**
+ *
+ *  清除JSON文件的数据
+ *
+ */
 
 function clearRecordsRequest() {
   fetch("/clear_records", { method: "POST" });
@@ -139,20 +216,23 @@ function clearRecordsHandler() {
               </div>
             </div>  
           </div>`;
-      showBox();
+      box.classList.add("active");
     });
 
   // 添加事件委托
   document.body.addEventListener("click", function (event) {
     if (event.target.id === "confirm-clear-records") {
       clearRecordsRequest();
-      hideBox();
+      box.classList.remove("active");
+      box.classList.add("de-active");
+
       setTimeout(() => {
         document.querySelector(".main-content").innerHTML = `
               <p  class="centered-text msgPrompt">Records Has Been Cleared!</p>`;
       }, 400);
     } else if (event.target.id === "cancel-clear-records") {
-      hideBox();
+      box.classList.remove("active");
+      box.classList.add("de-active");
       setTimeout(() => {
         document.querySelector(".main-content").innerHTML = `
               <p class="centered-text msgPrompt">Action Terminated!</p>`;
@@ -262,90 +342,3 @@ function displayAlert(message, data) {
  *
  *
  */
-
-/**
- *
- *  下方代码: 显示收入的函数
- *
- */
-
-function viewRecordsHandler() {
-  const currentDate = new Date();
-  document.querySelector(".main-content").innerHTML = `
-      <div class="title income-record">
-        <h1>income record
-          <span> ${currentDate}</span>
-        </h1>
-      </div>
-      <div class="table-container income-table">
-        <table id="recordsTable" class="data-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Types</th>
-                    <th>Amount</th>
-                    </tr>
-            </thead>
-            <tbody id="tableBody">
-            </tbody>
-        </table>
-      </div>
-      <div id="totals" class="centered-text"></div>
-      `;
-  displayRecords();
-}
-
-//显示收入记录
-function displayRecords() {
-  fetch("/income_records_data")
-    .then((response) => response.json())
-    .then((transactions) => {
-      const tableBody = document.getElementById("tableBody");
-      const table = document.getElementById("recordsTable");
-      tableBody.innerHTML = "";
-
-      let cashTotal = 0;
-      let checkTotal = 0;
-
-      if (!transactions.cash.length && !transactions.check.length) {
-        tableBody.innerHTML = "<td colspan='3'>There's no Record Yet!</td>";
-        return;
-      }
-
-      function createRow(record, type) {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-                      <td>${record.time}</td>
-                      <td>${type}</td>
-                      <td>$ ${record.amount.toFixed(2)}</td>
-                  `;
-        tableBody.appendChild(row);
-
-        if (type === "Cash") cashTotal += record.amount;
-        else checkTotal += record.amount;
-      }
-
-      transactions.cash.forEach((record) => createRow(record, "Cash"));
-      transactions.check.forEach((record) => createRow(record, "Check"));
-
-      const tfoot = document.createElement("tfoot");
-      tfoot.innerHTML = `
-          <tr>  
-            <td></td>
-            <td>Cash Total</td>  
-            <td>$ ${cashTotal.toFixed(2)}</td>
-          </tr>
-          <tr>  
-            <td></td>
-            <td>Check Total</td>  
-            <td>$ ${checkTotal.toFixed(2)}</td>
-          </tr>
-          <tr>  
-            <td></td>
-            <td>Amount Total</td>  
-            <td>$ ${(cashTotal + checkTotal).toFixed(2)}</td>
-          </tr>
-        `;
-      table.appendChild(tfoot);
-    });
-}
