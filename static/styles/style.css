@@ -1,0 +1,726 @@
+/* 设置字体和自动居中 */
+body {
+  font-family: "Ubuntu", sans-serif;
+  margin: 0 auto;
+}
+
+h2 {
+  margin: 0 auto;
+  height: 3rem;
+  border: 1px 1px 1px #000;
+  color: #000;
+}
+
+/* === BASE HEADING === */
+
+h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+h1 span {
+  display: block;
+  font-size: 0.5em;
+  line-height: 1.3;
+}
+h1 em {
+  font-style: normal;
+  font-weight: 600;
+}
+.title {
+  margin-bottom: 5rem;
+}
+.title h1 {
+  text-transform: capitalize;
+}
+.title h1:before {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 9rem;
+  height: 2px;
+  content: "";
+  background-color: #4909c7eb;
+}
+
+.title h1 span {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  line-height: 3em;
+  padding-left: 0.25em;
+  color: rgba(0, 0, 0, 0.7);
+  padding-bottom: 10px;
+}
+
+.income-record {
+  width: 100%;
+  /* margin-bottom: 5rem; */
+  max-width: 800px;
+  margin: 20px auto;
+}
+.settlment-data {
+  margin-bottom: 3rem;
+  margin-top: -1rem;
+}
+.absence-record {
+  margin-bottom: 2rem;
+  margin-top: -1rem;
+}
+
+/* 自定义字体 */
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("pressstart2p.ttf");
+}
+
+/* Navbar styles */
+/* 导航栏背景和阴影 */
+.navbar {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 导航栏列表布局 */
+.nav-list {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* 导航栏列表项布局 */
+.nav-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+/* 导航按钮样式 */
+.nav-btn {
+  background-color: transparent;
+  border: none;
+  color: #212121;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 1rem;
+  text-transform: uppercase;
+  width: 100%;
+  transition: background-color 0.5s ease-in-out;
+}
+
+/* 导航按钮焦点样式 */
+.nav-btn:focus {
+  outline: none;
+}
+
+/* 导航按钮悬停样式 */
+.nav-btn:hover {
+  color: white;
+  background-color: #000;
+}
+
+/* 当前活动导航按钮样式 */
+.nav-btn.active {
+  background-color: #8a33ff;
+  color: white;
+}
+
+/* Form styles */
+/* 表单输入框样式 */
+.form-input {
+  font-family: "Press Start 2P", sans-serif;
+  color: #000;
+  background: 0;
+  border: 0;
+  outline: none;
+  width: 100%;
+  font-size: 1em;
+  text-indent: 22px;
+  padding-bottom: 5px;
+  transition: padding 0.3s 0.2s ease;
+}
+
+/* 表单输入框获得焦点时的样式 */
+.form-input:focus {
+  padding-bottom: 5px;
+}
+
+/* 表单输入框获得焦点时的下划线动画 */
+.form-input:focus + .line::after {
+  transform: scaleX(1);
+}
+
+/* 表单输入框获得焦点时的占位符样式 */
+.form-input:focus ~ .placeholder {
+  transform: translateY(-100%);
+  font-size: 0.8em;
+  opacity: 0.5;
+}
+
+/* 表单字段样式 */
+.field {
+  position: relative;
+}
+
+/* 表单字段美元符号样式 */
+.field::before {
+  content: "$";
+  font-family: "Press Start 2P", sans-serif;
+  color: #000;
+  font-weight: bolder;
+  position: absolute;
+  left: 5px;
+  top: 42%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 1s;
+}
+/* 显示美元符号的样式 */
+.field.show-dollar::before {
+  opacity: 1;
+}
+
+/* 下划线样式 */
+.line {
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  bottom: -8px;
+  background: #bdc3c7;
+}
+
+/* 下划线动画 */
+.line::after {
+  content: " ";
+  position: absolute;
+  float: right;
+  width: 100%;
+  height: 3px;
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
+  background: black;
+}
+
+/* 占位符样式 */
+.placeholder {
+  position: absolute;
+  font-family: "Press Start 2P", sans-serif;
+  top: 0;
+  left: 0;
+  color: #000;
+  font-weight: bold;
+  font-size: 15px;
+  text-indent: 10px;
+  padding-bottom: 10px;
+  pointer-events: none;
+  transition: all 1s ease;
+}
+
+/* 隐藏占位符样式 */
+.hide-placeholder {
+  opacity: 0;
+}
+
+/* 标签样式 */
+.label {
+  font-size: 1em;
+}
+
+/* 输入容器样式 */
+.input-container {
+  margin-bottom: 1.5rem;
+}
+
+/* 按钮组样式 */
+.button-group {
+  margin-top: 1.5rem;
+}
+
+/* 添加收入表单的外边距样式 */
+#add-income-form {
+  margin-top: 3rem;
+}
+
+/* 下拉菜单样式 */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* 下拉菜单按钮样式 */
+.dropdown-btn {
+  background-color: #8631f5;
+  border-radius: 5px;
+  color: white;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  /* transition: all 2s cubic-bezier(0.25, 0.8, 0.25, 1); */
+}
+
+/* 下拉菜单选项样式 */
+.dropdown-menu {
+  visibility: hidden;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 129px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  transition: all 1s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* 显示下拉菜单选项样式 */
+.dropdown-menu.show {
+  visibility: visible;
+  margin-top: 5px;
+  border-radius: 5px;
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 300px;
+}
+
+/* 下拉菜单链接样式 */
+.dropdown-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* 下拉菜单链接悬停样式 */
+.dropdown-menu a:hover {
+  background-color: #000;
+  color: whitesmoke;
+}
+
+/* 按钮组样式 */
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* 自定义按钮样式 */
+
+.custom-button {
+  width: 130px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(15, 15, 15);
+  border: none;
+  color: white;
+  font-weight: 600;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.3s;
+}
+
+.custom-button::before {
+  width: 130px;
+  height: 130px;
+  position: absolute;
+  content: "";
+  background-color: white;
+  border-radius: 50%;
+  left: -100%;
+  top: 0;
+  transition-duration: 0.3s;
+  mix-blend-mode: difference;
+}
+
+.custom-button:hover::before {
+  transition-duration: 0.3s;
+  transform: translate(100%, -50%);
+  border-radius: 0;
+}
+
+.custom-button:active {
+  transform: translate(5px, 5px);
+  transition-duration: 0.3s;
+}
+
+/* 居中 div 和 box 样式 */
+#divBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+}
+
+#box {
+  width: 50%;
+  max-width: 80%;
+  border-radius: 10px;
+  opacity: 0;
+  transform: scale(0.5);
+  padding: 2rem;
+  transition: opacity 0.4s, transform 0.4s;
+}
+
+#box.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 内容样式 */
+#content {
+  padding: 2rem;
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* 收入部分样式 */
+#income-section {
+  display: flex;
+}
+
+/* 侧边栏样式 */
+
+.fancy {
+  background-color: transparent;
+  border: 2px solid #000;
+  border-radius: 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  outline: none;
+  overflow: visible;
+  padding: 1.25em 2em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  transition: all 0.3s ease-in-out;
+  user-select: none;
+  font-size: 15px;
+}
+.fancy:not(:first-child) {
+  margin-left: 50px;
+}
+
+.fancy::before {
+  content: " ";
+  width: 1.5625rem;
+  height: 2px;
+  background: black;
+  top: 50%;
+  left: 1.5em;
+  position: absolute;
+  transform: translateY(-50%);
+  transform-origin: center;
+  transition: background 0.3s linear, width 0.3s linear;
+}
+
+.fancy .text {
+  font-size: 1.125em;
+  line-height: 20px;
+  padding-left: 2em;
+  display: block;
+  text-align: left;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: black;
+}
+
+.fancy .top-key {
+  height: 2px;
+  width: 1.5625rem;
+  top: -2px;
+  left: 0.625rem;
+  position: absolute;
+  background: #e8e8e8;
+  transition: width 0.5s ease-out, left 0.3s ease-out;
+}
+
+.fancy .bottom-key-1 {
+  height: 2px;
+  width: 1.5625rem;
+  right: 1.875rem;
+  bottom: -2px;
+  position: absolute;
+  background: #e8e8e8;
+  transition: width 0.5s ease-out, right 0.3s ease-out;
+}
+
+.fancy .bottom-key-2 {
+  height: 2px;
+  width: 0.625rem;
+  right: 0.625rem;
+  bottom: -2px;
+  position: absolute;
+  background: #e8e8e8;
+  transition: width 0.5s ease-out, right 0.3s ease-out;
+}
+
+.fancy:hover {
+  color: white;
+  background: black;
+}
+
+.fancy:hover::before {
+  width: 0.9375rem;
+  background: white;
+}
+
+.fancy:hover .text {
+  color: white;
+  padding-left: 1.5em;
+}
+
+.fancy:hover .top-key {
+  left: -2px;
+  width: 0px;
+}
+
+.fancy:hover .bottom-key-1,
+.fancy:hover .bottom-key-2 {
+  right: 0;
+  width: 0;
+}
+
+.sidebar {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+  width: 100%;
+  height: 60px;
+  background-color: transparent;
+}
+
+/* 主内容样式 */
+.main-content {
+  width: 80%;
+  margin: 0rem auto;
+}
+
+/* 表格样式 */
+.table-container {
+  width: 50%;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.income-table {
+  width: 100%;
+  max-width: 800px;
+}
+
+.data-table {
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.data-table thead {
+  background-color: #000;
+  color: white;
+  font-weight: normal;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.22);
+}
+
+.data-table thead th {
+  padding: 20px 12px;
+  text-align: center;
+}
+
+.data-table tbody tr {
+  border-radius: 2px;
+  border: 2px solid #a839f7;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.22);
+  margin-bottom: 10px;
+  transition: box-shadow 0.5s ease-in;
+}
+
+.data-table tbody tr:hover {
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+.data-table tbody td {
+  padding: 25px 6px;
+  text-align: center;
+}
+
+.data-table tfoot {
+  background-color: white;
+  color: #000;
+}
+
+.data-table tfoot td {
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.data-table tfoot tr td {
+  position: relative;
+}
+
+.data-table tfoot tr td:after {
+  content: "";
+  position: absolute;
+  top: 47px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #000;
+  /* box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5); */
+}
+.data-table tfoot tr td:not(:first-of-type):after {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* 移除第一个tfoot td元素的box-shadow */
+.data-table tfoot tr td:first-of-type {
+  box-shadow: none;
+  background-color: white;
+}
+
+.data-table tfoot tr td:first-child:after {
+  background-color: white;
+}
+
+/* 
+.data-table tfoot tr:first-child td::after {
+  background-color: transparent;
+} */
+
+/* 清除记录样式 */
+#clear_prompt {
+  margin: 0 auto;
+}
+
+.centered-text {
+  text-align: center;
+}
+
+.clear-button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.msgBox {
+  width: 100%;
+  max-width: 600px;
+  padding: 25px;
+}
+
+.dataMsg h2 {
+  margin-top: 0;
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dataMsg p {
+  color: #4a4a4a;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.dataMsg p:last-child {
+  font-size: 18px;
+  font-style: italic;
+  color: #ea348c;
+}
+
+.dataMsg p span {
+  font-weight: bolder;
+  color: rgb(49, 154, 246);
+}
+
+/* message for prompt */
+.msgPrompt {
+  font-size: 20px;
+  color: #ea348c;
+}
+
+.t-container {
+  padding-top: 3rem;
+  margin: 0 auto;
+  width: 75%;
+}
+.absenceBox {
+  margin-top: 3rem;
+}
+.absenceMsg {
+  width: 70%;
+}
+
+.msgBox {
+  display: flex;
+  justify-content: center;
+}
+
+.dataMsg {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.msgBox .dataMsg p:nth-child(6) span {
+  color: rgb(162, 55, 220);
+}
+
+/* alert animations */
+
+.alert-box {
+  position: fixed;
+  top: 44%; /* Adjust this to center vertically */
+  left: 38%;
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Adjust this to center both horizontally and vertically */
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 1s ease;
+}
+
+.alert-enter {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.alert-enter-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.alert-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.alert-exit-active {
+  opacity: 0;
+  transform: scale(0.8);
+}

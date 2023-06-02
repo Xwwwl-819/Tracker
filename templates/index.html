@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>收入管理</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}?v=2"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <button
+            id="income-system-btn"
+            class="nav-btn"
+            onclick="window.location.href='/'; setActiveButton('income-system-btn')"
+          >
+            收入
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            id="absence-system-btn"
+            class="nav-btn"
+            onclick="window.location.href='/absence'; setActiveButton('absence-system-btn')"
+          >
+            缺勤
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div id="content">
+      <!-- 在这里添加功能内容 -->
+      <!-- 添加到 <div id="content"> 中 -->
+      <div id="income-section" class="section">
+        <div class="sidebar">
+          <a id="add-income-btn" class="fancy section-btn" href="#">
+            <span class="top-key"></span>
+            <span class="text">添加收入记录</span>
+            <span class="bpttom-key-1"></span>
+            <span class="bottom-key-2"></span>
+          </a>
+          <a id="view-records-btn" class="fancy section-btn" href="#">
+            <span class="top-key"></span>
+            <span class="text">查看收入记录</span>
+            <span class="bpttom-key-1"></span>
+            <span class="bottom-key-2"></span>
+          </a>
+          <a id="clear-records-btn" class="fancy section-btn" href="#">
+            <span class="top-key"></span>
+            <span class="text">清空收入记录</span>
+            <span class="bpttom-key-1"></span>
+            <span class="bottom-key-2"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="main-content">
+      <!-- 功能内容将在这里显示 -->
+    </div>
+
+    <script
+      type="module"
+      src="{{ url_for('static', filename='app.js') }}"
+    ></script>
+  </body>
+</html>

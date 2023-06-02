@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>缺勤管理</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}?v=2"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <button
+            id="income-system-btn"
+            class="nav-btn"
+            onclick="window.location.href='/'; setActiveButton('income-system-btn')"
+          >
+            收入
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            id="absence-system-btn"
+            class="nav-btn"
+            onclick="window.location.href='/absence'; setActiveButton('absence-system-btn')"
+          >
+            缺勤
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <div id="content" class="container">
+      <div id="income-section" class="section">
+        <div class="sidebar">
+          <a id="record-absence-btn" class="fancy section-btn">
+            <span class="top-key"></span>
+            <span class="text">记录缺勤</span>
+            <span class="bpttom-key-1"></span>
+            <span class="bottom-key-2"></span>
+          
+          </a>
+          <a id="absence-records-btn" class="fancy section-btn">
+            <span class="top-key"></span>
+            <span class="text">缺勤记录</span>
+            <span class="bpttom-key-1"></span>
+            <span class="bottom-key-2"></span>
+            
+          
+          </a>
+          <a id="working-days-btn" class="fancy section-btn">
+            <span class="top-key"></span>
+            <span class="text">天数结算</span>
+            <span class="bpttom-key-1"></span>
+            <span class="bottom-key-2"></span>
+            
+          
+          </a>
+          <a id="clear-records-btn" class="fancy section-btn">
+            <span class="top-key"></span>
+            <span class="text">清空记录</span>
+            <span class="bpttom-key-1"></span>
+            <span class="bottom-key-2"></span>
+            
+          
+          </a>
+        </div>
+      </div>
+      <div class="content t-container">
+        <!-- 功能相关的内容将在此处显示 -->
+      </div>
+
+    <script src="{{ url_for('static', filename='absence.js') }}"></script>
+  </body>
+</html>
