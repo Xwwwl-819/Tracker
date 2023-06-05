@@ -56,7 +56,7 @@ function viewRecordsHandler() {
               <th style="text-align: center;">Date</th>
               <th style="text-align: center;">Weekdays</th>
               <th style="text-align: center;">Absence</th>
-              <th></th>
+              <th id="absence-th"></th>
             </tr>
           </thead>
           <tbody id="tableBody">
@@ -66,7 +66,11 @@ function viewRecordsHandler() {
   displayAbsenceRecords();
 }
 
+let totalAbsence = 0;
+
 function displayAbsenceRecords() {
+  totalAbsence = 0;
+
   fetch("/view_absence_records")
     .then((response) => response.json())
     .then((records) => {
@@ -79,29 +83,39 @@ function displayAbsenceRecords() {
         return;
       }
 
-      let totalAbsence = 0;
-
       function createRow(date, record) {
+        const SUCCESS_MSG = "Absence record deleted successfully";
         const row = document.createElement("tr");
         row.innerHTML = `
                         <td>${date}</td> 
                         <td>${record.weekdays}</td>  
-                        <td>${record.absences}</td>
-                        <td><span class="delete" style="display: none;">X</span></td>
+                        <td>${record.absences} Count</td>
+                        <td><span class="delete" style="display: none;">×</span></td>
+
                     `;
+
         tableBody.appendChild(row);
 
-        row.querySelector(".delete").style.display = "none";
+        const deleteBtn = row.querySelector(".delete");
+        deleteBtn.style.display = "none";
 
         row.addEventListener("mouseover", () => {
-          row.querySelector(".delete").style.display = "";
+          deleteBtn.style.display = "";
+          deleteBtn.classList.remove("animate__fadeOut");
+          deleteBtn.classList.add("animate__animated", "animate__fadeIn");
         });
 
         row.addEventListener("mouseout", () => {
-          row.querySelector(".delete").style.display = "none";
+          deleteBtn.classList.remove("animate__fadeIn");
+          deleteBtn.classList.add("animate__animated", "animate__fadeOut");
+          deleteBtn.addEventListener("animationend", () => {
+            if (deleteBtn.classList.contains("animate__fadeOut")) {
+              deleteBtn.style.display = "none";
+            }
+          });
         });
 
-        row.querySelector(".delete").addEventListener("click", () => {
+        deleteBtn.addEventListener("click", () => {
           if (confirm("Are you sure to delete this record?")) {
             fetch("/delete_absence", {
               method: "POST",
@@ -114,31 +128,41 @@ function displayAbsenceRecords() {
             })
               .then((response) => response.json())
               .then((data) => {
-                if (data.message === "Absence record deleted successfully") {
+                if (data.message === SUCCESS_MSG) {
                   tableBody.removeChild(row);
-                  displayAlert(`Date: ${date}, `, " Deleted!");
+                  displayAlert(date, " Deleted!");
                   totalAbsence -= record.absences;
+                  updateTotals();
                 }
               });
           }
         });
-      }
 
+        totalAbsence += record.absences;
+      }
       Object.entries(records).forEach(([date, record]) => {
         createRow(date, record);
-        totalAbsence += record.absences;
       });
 
-      const tfoot = document.createElement("tfoot");
-      tfoot.innerHTML = `
-            <tr>  
-              <td></td>
-              <td>Total Absence</td>
-              <td>${totalAbsence} Days</td>
-            </tr>
-          `;
-      table.appendChild(tfoot);
+      updateTotals();
     });
+}
+function updateTotals() {
+  const table = document.getElementById("recordsTable");
+  const tfoot = document.createElement("tfoot");
+  tfoot.innerHTML = `
+          <tr>  
+            <td></td>
+            <td></td>
+            <td>Total Absence</td>
+            <td>${totalAbsence} Days</td>
+          </tr>
+        `;
+  const oldTfoot = table.querySelector("tfoot");
+  if (oldTfoot) {
+    table.removeChild(oldTfoot);
+  }
+  table.appendChild(tfoot);
 }
 
 document.getElementById("working-days-btn").addEventListener("click", () => {

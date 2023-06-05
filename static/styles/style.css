@@ -552,11 +552,16 @@ h1 em {
 }
 
 .data-table thead th {
-  padding: 20px 12px;
+  padding: 20px 20px;
   text-align: center;
 }
 
+#absence-th {
+  width: 50px;
+}
+
 .data-table tbody tr {
+  height: 70px;
   border-radius: 2px;
   border: 2px solid #a839f7;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.22);
@@ -610,11 +615,6 @@ h1 em {
 .data-table tfoot tr td:first-child:after {
   background-color: white;
 }
-
-/* 
-.data-table tfoot tr:first-child td::after {
-  background-color: transparent;
-} */
 
 /* 清除记录样式 */
 #clear_prompt {
@@ -705,8 +705,11 @@ h1 em {
   ); /* Adjust this to center both horizontally and vertically */
   padding: 1rem 2rem;
   border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  background-color: #000;
+  color: #fff;
   transition: all 1s ease;
+  z-index: 999;
 }
 
 .alert-enter {
@@ -728,9 +731,55 @@ h1 em {
   opacity: 0;
   transform: scale(0.8);
 }
-
+/* 
 .delete {
   cursor: pointer;
   font-weight: bolder;
-  color: red;
+  color: white;
+  background-color: #000;
+  transition: 0.3s;
+  border-radius: 10px;
+  width: 25px;
+} */
+.delete {
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-weight: bolder;
+  /* line-height: 20px; */
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.animate__animated {
+  animation-duration: 1s;
+}
+
+.animate__fadeIn {
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate__fadeOut {
+  animation-name: fadeOut;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

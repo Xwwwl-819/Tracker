@@ -138,16 +138,44 @@ function viewRecordsHandler() {
 
 //显示收入记录
 
+let cashTotal = 0;
+let checkTotal = 0;
+
+function updateTotals() {
+  const table = document.getElementById("recordsTable");
+  const tfoot = document.createElement("tfoot");
+  tfoot.innerHTML = `
+        <tr>
+          <td></td>  
+          <td>Cash Total</td>
+          <td>${cashTotal.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td></td>  
+          <td>Check Total</td>
+          <td>${checkTotal.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td></td>  
+          <td>Amount Total</td>  
+          <td>${(cashTotal + checkTotal).toFixed(2)}</td>
+        </tr>
+      `;
+  const oldTfoot = table.querySelector("tfoot");
+  if (oldTfoot) {
+    table.removeChild(oldTfoot);
+  }
+  table.appendChild(tfoot);
+}
+
 function displayRecords() {
+  cashTotal = 0;
+  checkTotal = 0;
   fetch("/income_records_data")
     .then((response) => response.json())
     .then((transactions) => {
       const tableBody = document.getElementById("tableBody");
-      const table = document.getElementById("recordsTable");
       tableBody.innerHTML = "";
-
-      let cashTotal = 0;
-      let checkTotal = 0;
 
       if (!transactions.cash.length && !transactions.check.length) {
         tableBody.innerHTML = "<td colspan='4'>There's no Record Yet!</td>";
@@ -155,25 +183,36 @@ function displayRecords() {
       }
 
       function createRow(record, type) {
+        const SUCCESS_MSG = "Record deleted successfully";
         const row = document.createElement("tr");
         row.innerHTML = `
                         <td>${record.time}</td>
                         <td>${type}</td>  
                         <td>$ ${record.amount.toFixed(2)}</td>
-                        <td><span class="delete">X</span></td>
+                        <td><span class="delete">×</span></td>
                     `;
         tableBody.appendChild(row);
 
-        row.querySelector(".delete").style.display = "none";
+        const deleteBtn = row.querySelector(".delete");
+        deleteBtn.style.display = "none";
 
         row.addEventListener("mouseover", () => {
-          row.querySelector(".delete").style.display = "";
+          deleteBtn.style.display = "";
+          deleteBtn.classList.remove("animate__fadeOut");
+          deleteBtn.classList.add("animate__animated", "animate__fadeIn");
         });
 
         row.addEventListener("mouseout", () => {
-          row.querySelector(".delete").style.display = "none";
+          deleteBtn.classList.remove("animate__fadeIn");
+          deleteBtn.classList.add("animate__animated", "animate__fadeOut");
+          deleteBtn.addEventListener("animationend", () => {
+            if (deleteBtn.classList.contains("animate__fadeOut")) {
+              deleteBtn.style.display = "none";
+            }
+          });
         });
-        row.querySelector(".delete").addEventListener("click", () => {
+
+        deleteBtn.addEventListener("click", () => {
           if (confirm("Are you sure to delete this record?")) {
             fetch("/delete_income", {
               method: "POST",
@@ -187,11 +226,12 @@ function displayRecords() {
             })
               .then((response) => response.json())
               .then((data) => {
-                if (data.message === "Record deleted successfully") {
+                if (data.message === SUCCESS_MSG) {
                   if (type === "Cash") cashTotal -= record.amount;
                   else checkTotal -= record.amount;
                   tableBody.removeChild(row);
                   displayAlert(`${type}: $${record.amount} `, "Deleted!");
+                  updateTotals();
                 }
               });
           }
@@ -204,25 +244,7 @@ function displayRecords() {
       transactions.cash.forEach((record) => createRow(record, "Cash"));
       transactions.check.forEach((record) => createRow(record, "Check"));
 
-      const tfoot = document.createElement("tfoot");
-      tfoot.innerHTML = `
-            <tr>
-              <td></td>  
-              <td>Cash Total</td>
-              <td>${cashTotal.toFixed(2)}</td>
-            </tr>
-            <tr>
-              <td></td>  
-              <td>Check Total</td>
-              <td>${checkTotal.toFixed(2)}</td>
-            </tr>
-            <tr>
-              <td></td>  
-              <td>Amount Total</td>  
-              <td>${(cashTotal + checkTotal).toFixed(2)}</td>
-            </tr>
-          `;
-      table.appendChild(tfoot);
+      updateTotals();
     });
 }
 
