@@ -728,3 +728,9 @@ h1 em {
   opacity: 0;
   transform: scale(0.8);
 }
+
+.delete {
+  cursor: pointer;
+  font-weight: bolder;
+  color: red;
+}

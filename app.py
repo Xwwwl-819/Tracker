@@ -48,6 +48,25 @@ def add_income():
     return jsonify({"message": "Record added successfully"})
 
 
+@app.route("/delete_income", methods=["POST"])
+def delete_income():
+    # 检查文件是否存在
+    check_file_exists()
+    date_to_delete = request.form.get("date")
+    money_type = request.form.get("money_type")
+
+    with open("transactions.json", "r+") as f:
+        data = json.load(f)
+        data[money_type] = [
+            item for item in data[money_type] if item["time"] != date_to_delete
+        ]
+        f.seek(0)
+        f.truncate()
+        json.dump(data, f)
+
+    return jsonify({"message": "Record deleted successfully"})
+
+
 @app.route("/income_records_data")
 def income_records_data():
     with open("transactions.json", "r") as file:
@@ -177,6 +196,19 @@ def view_work_days():
             "salary": salary,
         }
     )
+
+
+@app.route("/delete_absence", methods=["POST"])
+def delete_absence():
+    date_to_delete = request.form.get("date")
+
+    records = get_absence_records()
+    if date_to_delete in records:
+        del records[date_to_delete]
+        save_absence_records(records)
+        return jsonify({"message": "Absence record deleted successfully"})
+    else:
+        return jsonify({"message": "No absence record found for the provided date"})
 
 
 @app.route("/absence_clear_records", methods=["POST"])

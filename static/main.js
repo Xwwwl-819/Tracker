@@ -125,7 +125,7 @@ function viewRecordsHandler() {
                       <th>Date</th>
                       <th>Types</th>
                       <th>Amount</th>
-                      </tr>
+                      <th></th>
               </thead>
               <tbody id="tableBody">
               </tbody>
@@ -137,6 +137,339 @@ function viewRecordsHandler() {
 }
 
 //显示收入记录
+// function displayRecords() {
+//   fetch("/income_records_data")
+//     .then((response) => response.json())
+//     .then((transactions) => {
+//       const tableBody = document.getElementById("tableBody");
+//       const table = document.getElementById("recordsTable");
+//       tableBody.innerHTML = "";
+
+//       let cashTotal = 0;
+//       let checkTotal = 0;
+
+//       if (!transactions.cash.length && !transactions.check.length) {
+//         tableBody.innerHTML = "<td colspan='3'>There's no Record Yet!</td>";
+//         return;
+//       }
+
+//       function createRow(record, type) {
+//         const row = document.createElement("tr");
+//         row.innerHTML = `
+//                         <td>${record.time}</td>
+//                         <td>${type}</td>
+//                         <td>$ ${record.amount.toFixed(2)}</td>
+//                     `;
+//         tableBody.appendChild(row);
+
+//         if (type === "Cash") cashTotal += record.amount;
+//         else checkTotal += record.amount;
+//       }
+
+//       transactions.cash.forEach((record) => createRow(record, "Cash"));
+//       transactions.check.forEach((record) => createRow(record, "Check"));
+
+//       const tfoot = document.createElement("tfoot");
+//       tfoot.innerHTML = `
+//             <tr>
+//               <td></td>
+//               <td>Cash Total</td>
+//               <td>$ ${cashTotal.toFixed(2)}</td>
+//             </tr>
+//             <tr>
+//               <td></td>
+//               <td>Check Total</td>
+//               <td>$ ${checkTotal.toFixed(2)}</td>
+//             </tr>
+//             <tr>
+//               <td></td>
+//               <td>Amount Total</td>
+//               <td>$ ${(cashTotal + checkTotal).toFixed(2)}</td>
+//             </tr>
+//           `;
+//       table.appendChild(tfoot);
+//     });
+// }
+
+// function displayRecords() {
+//   fetch("/income_records_data")
+//     .then((response) => response.json())
+//     .then((transactions) => {
+//       const tableBody = document.getElementById("tableBody");
+//       const table = document.getElementById("recordsTable");
+//       tableBody.innerHTML = "";
+
+//       let cashTotal = 0;
+//       let checkTotal = 0;
+
+//       if (!transactions.cash.length && !transactions.check.length) {
+//         tableBody.innerHTML = "<td colspan='3'>There's no Record Yet!</td>";
+//         return;
+//       }
+
+//       function createRow(record, type) {
+//         const row = document.createElement("tr");
+//         row.innerHTML = `
+//                         <td>${record.time}</td>
+//                         <td>${type}</td>
+//                         <td>$ ${record.amount.toFixed(2)}</td>
+//                         <td class='deleteCell' style="display:none;">Delete</td>
+//                     `;
+//         tableBody.appendChild(row);
+
+//         row.onmouseover = function () {
+//           this.lastChild.style.display = "block";
+//         };
+
+//         row.onmouseout = function () {
+//           this.lastChild.style.display = "none";
+//         };
+
+//         row.lastChild.onclick = function () {
+//           if (confirm("Do you want to delete this record?")) {
+//             row.remove();
+//           }
+//         };
+
+//         if (type === "Cash") cashTotal += record.amount;
+//         else checkTotal += record.amount;
+//       }
+
+//       transactions.cash.forEach((record) => createRow(record, "Cash"));
+//       transactions.check.forEach((record) => createRow(record, "Check"));
+
+//       const tfoot = document.createElement("tfoot");
+//       tfoot.innerHTML = `
+//             <tr>
+//               <td></td>
+//               <td>Cash Total</td>
+//               <td>$ ${cashTotal.toFixed(2)}</td>
+//             </tr>
+//             <tr>
+//               <td></td>
+//               <td>Check Total</td>
+//               <td>$ ${checkTotal.toFixed(2)}</td>
+//             </tr>
+//             <tr>
+//               <td></td>
+//               <td>Amount Total</td>
+//               <td>$ ${(cashTotal + checkTotal).toFixed(2)}</td>
+//             </tr>
+//           `;
+//       table.appendChild(tfoot);
+//     });
+// }
+// async function displayRecords() {
+//   const response = await fetch("/income_records_data");
+//   const transactions = await response.json();
+
+//   const tableBody = document.getElementById("tableBody");
+//   const table = document.getElementById("recordsTable");
+//   tableBody.innerHTML = "";
+
+//   let cashTotal = 0;
+//   let checkTotal = 0;
+
+//   if (!transactions.cash.length && !transactions.check.length) {
+//     tableBody.innerHTML = "<td colspan='3'>There's no Record Yet!</td>";
+//     return;
+//   }
+
+//   function createRow(record, type) {
+//     const row = document.createElement("tr");
+//     row.innerHTML = `
+//                     <td>${record.time}</td>
+//                     <td>${type}</td>
+//                     <td>$ ${record.amount.toFixed(2)}</td>
+//                     <td class='deleteCell' style='display: none;'>Delete</td>
+//                 `;
+//     tableBody.appendChild(row);
+
+//     row.onmouseover = function () {
+//       this.lastChild.style.display = "block";
+//     };
+
+//     row.onmouseout = function () {
+//       this.lastChild.style.display = "none";
+//     };
+
+//     row.lastChild.onclick = function () {
+//       if (confirm("Do you want to delete this record?")) {
+//         row.remove();
+//       }
+//     };
+
+//     if (type === "Cash") cashTotal += record.amount;
+//     else checkTotal += record.amount;
+//   }
+
+//   transactions.cash.forEach((record) => createRow(record, "Cash"));
+//   transactions.check.forEach((record) => createRow(record, "Check"));
+
+//   const tfoot = document.createElement("tfoot");
+//   tfoot.innerHTML = `
+//         <tr>
+//           <td></td>
+//           <td>Cash Total</td>
+//           <td>$ ${cashTotal.toFixed(2)}</td>
+//         </tr>
+//         <tr>
+//           <td></td>
+//           <td>Check Total</td>
+//           <td>$ ${checkTotal.toFixed(2)}</td>
+//         </tr>
+//         <tr>
+//           <td></td>
+//           <td>Amount Total</td>
+//           <td>$ ${(cashTotal + checkTotal).toFixed(2)}</td>
+//         </tr>
+//       `;
+//   table.appendChild(tfoot);
+// }
+// function displayRecords() {
+//   fetch("/income_records_data")
+//     .then((response) => response.json())
+//     .then((transactions) => {
+//       const tableBody = document.getElementById("tableBody");
+//       const table = document.getElementById("recordsTable");
+//       tableBody.innerHTML = "";
+
+//       let cashTotal = 0;
+//       let checkTotal = 0;
+
+//       if (!transactions.cash.length && !transactions.check.length) {
+//         tableBody.innerHTML = "<td colspan='3'>There's no Record Yet!</td>";
+//         return;
+//       }
+
+//       function createRow(record, type) {
+//         const row = document.createElement("tr");
+//         const deleteCell = document.createElement("td");
+//         deleteCell.textContent = "Delete";
+//         deleteCell.classList.add("deleteCell");
+//         deleteCell.style.display = "none";
+//         row.appendChild(deleteCell);
+//         row.innerHTML += `
+//                         <td>${record.time}</td>
+//                         <td>${type}</td>
+//                         <td>$ ${record.amount.toFixed(2)}</td>
+//                     `;
+//         tableBody.appendChild(row);
+
+//         row.onmouseover = function () {
+//           deleteCell.style.display = "inline";
+//         };
+
+//         row.onmouseout = function () {
+//           deleteCell.style.display = "none";
+//         };
+
+//         deleteCell.onclick = function () {
+//           if (confirm("Do you want to delete this record?")) {
+//             row.remove();
+//           }
+//         };
+
+//         if (type === "Cash") cashTotal += record.amount;
+//         else checkTotal += record.amount;
+//       }
+
+//       transactions.cash.forEach((record) => createRow(record, "Cash"));
+//       transactions.check.forEach((record) => createRow(record, "Check"));
+
+//       const tfoot = document.createElement("tfoot");
+//       tfoot.innerHTML = `
+//             <tr>
+//               <td></td>
+//               <td>Cash Total</td>
+//               <td>$ ${cashTotal.toFixed(2)}</td>
+//             </tr>
+//             <tr>
+//               <td></td>
+//               <td>Check Total</td>
+//               <td>$ ${checkTotal.toFixed(2)}</td>
+//             </tr>
+//             <tr>
+//               <td></td>
+//               <td>Amount Total</td>
+//               <td>$ ${(cashTotal + checkTotal).toFixed(2)}</td>
+//             </tr>
+//           `;
+//       table.appendChild(tfoot);
+//     });
+// }
+
+// function displayRecords() {
+//   fetch("/income_records_data")
+//     .then((response) => response.json())
+//     .then((transactions) => {
+//       const tableBody = document.getElementById("tableBody");
+//       const table = document.getElementById("recordsTable");
+//       tableBody.innerHTML = "";
+
+//       let cashTotal = 0;
+//       let checkTotal = 0;
+
+//       if (!transactions.cash.length && !transactions.check.length) {
+//         tableBody.innerHTML = "<td colspan='4'>There's no Record Yet!</td>";
+//         return;
+//       }
+
+//       function createRow(record, type) {
+//         const row = document.createElement("tr");
+//         row.innerHTML = `
+//                         <td>${record.time}</td>
+//                         <td>${type}</td>
+//                         <td>$ ${record.amount.toFixed(2)}</td>
+//                         <td><span class="delete">x</span></td>
+//                     `;
+//         tableBody.appendChild(row);
+
+//         row.querySelector(".delete").style.display = "none";
+
+//         row.addEventListener("mouseover", () => {
+//           row.querySelector(".delete").style.display = "";
+//         });
+
+//         row.addEventListener("mouseout", () => {
+//           row.querySelector(".delete").style.display = "none";
+//         });
+//         row.querySelector(".delete").addEventListener("click", () => {
+//           if (confirm("Are you sure to delete this record?")) {
+//             if (type === "Cash") cashTotal -= record.amount;
+//             else checkTotal -= record.amount;
+//             tableBody.removeChild(row);
+//           }
+//         });
+
+//         if (type === "Cash") cashTotal += record.amount;
+//         else checkTotal += record.amount;
+//       }
+
+//       transactions.cash.forEach((record) => createRow(record, "Cash"));
+//       transactions.check.forEach((record) => createRow(record, "Check"));
+
+//       const tfoot = document.createElement("tfoot");
+//       tfoot.innerHTML = `
+//             <tr>
+//               <td></td>
+//               <td>Cash Total</td>
+//               <td>${cashTotal.toFixed(2)}</td>
+//             </tr>
+//             <tr>
+//               <td></td>
+//               <td>Check Total</td>
+//               <td>${checkTotal.toFixed(2)}</td>
+//             </tr>
+//             <tr>
+//               <td colspan='2'>Amount Total</td>
+//               <td>${(cashTotal + checkTotal).toFixed(2)}</td>
+//             </tr>
+//           `;
+//       table.appendChild(tfoot);
+//     });
+// }
+
 function displayRecords() {
   fetch("/income_records_data")
     .then((response) => response.json())
@@ -149,7 +482,7 @@ function displayRecords() {
       let checkTotal = 0;
 
       if (!transactions.cash.length && !transactions.check.length) {
-        tableBody.innerHTML = "<td colspan='3'>There's no Record Yet!</td>";
+        tableBody.innerHTML = "<td colspan='4'>There's no Record Yet!</td>";
         return;
       }
 
@@ -157,10 +490,44 @@ function displayRecords() {
         const row = document.createElement("tr");
         row.innerHTML = `
                         <td>${record.time}</td>
-                        <td>${type}</td>
+                        <td>${type}</td>  
                         <td>$ ${record.amount.toFixed(2)}</td>
+                        <td><span class="delete">X</span></td>
                     `;
         tableBody.appendChild(row);
+
+        row.querySelector(".delete").style.display = "none";
+
+        row.addEventListener("mouseover", () => {
+          row.querySelector(".delete").style.display = "";
+        });
+
+        row.addEventListener("mouseout", () => {
+          row.querySelector(".delete").style.display = "none";
+        });
+        row.querySelector(".delete").addEventListener("click", () => {
+          if (confirm("Are you sure to delete this record?")) {
+            fetch("/delete_income", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: new URLSearchParams({
+                date: record.time,
+                money_type: type.toLowerCase(),
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.message === "Record deleted successfully") {
+                  if (type === "Cash") cashTotal -= record.amount;
+                  else checkTotal -= record.amount;
+                  tableBody.removeChild(row);
+                  displayAlert(`${type}: $${record.amount} `, "Deleted!");
+                }
+              });
+          }
+        });
 
         if (type === "Cash") cashTotal += record.amount;
         else checkTotal += record.amount;
@@ -171,20 +538,20 @@ function displayRecords() {
 
       const tfoot = document.createElement("tfoot");
       tfoot.innerHTML = `
-            <tr>  
-              <td></td>
-              <td>Cash Total</td>  
-              <td>$ ${cashTotal.toFixed(2)}</td>
+            <tr>
+              <td></td>  
+              <td>Cash Total</td>
+              <td>${cashTotal.toFixed(2)}</td>
             </tr>
-            <tr>  
-              <td></td>
-              <td>Check Total</td>  
-              <td>$ ${checkTotal.toFixed(2)}</td>
+            <tr>
+              <td></td>  
+              <td>Check Total</td>
+              <td>${checkTotal.toFixed(2)}</td>
             </tr>
-            <tr>  
-              <td></td>
+            <tr>
+              <td></td>  
               <td>Amount Total</td>  
-              <td>$ ${(cashTotal + checkTotal).toFixed(2)}</td>
+              <td>${(cashTotal + checkTotal).toFixed(2)}</td>
             </tr>
           `;
       table.appendChild(tfoot);
