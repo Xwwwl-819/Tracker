@@ -1,6 +1,5 @@
 import { clearRecordsHandler } from "./utils.js";
 import { displayAlert } from "./utils.js";
-///ssd
 
 const date = new Date();
 const options = { weekday: "long", month: "long", day: "numeric" };
