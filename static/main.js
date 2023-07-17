@@ -1,3 +1,5 @@
+import { clearRecordsHandler } from "./utils.js";
+import { displayAlert } from "./utils.js";
 /***
  *
  *
@@ -24,7 +26,7 @@ function displayAddIncomeForm() {
   document.querySelector(".main-content").innerHTML = `
        <div id="add-income" class="main-content">
        <div class="title">
-          <h1>add income record
+          <h1>add income
             <span> ${currentDate}</span>
           </h1>
        </div>
@@ -92,7 +94,7 @@ function displayAddIncomeForm() {
     .getElementById("add-income-form")
     .addEventListener("submit", function (event) {
       event.preventDefault(); // 阻止表单的默认提交行为
-      displayAlert("Successfully Added: $", amountInput.value);
+      displayAlert(`Successfully Added: $`, amountInput.value);
       addIncomeHandler();
       resetForm(); // 显示成功的提示框
     });
@@ -114,7 +116,7 @@ function viewRecordsHandler() {
   const currentDate = new Date();
   document.querySelector(".main-content").innerHTML = `
         <div class="title income-record">
-          <h1>income record
+          <h1 class="title-name">income record
             <span> ${currentDate}</span>
           </h1>
         </div>
@@ -142,30 +144,43 @@ let cashTotal = 0;
 let checkTotal = 0;
 
 function updateTotals() {
-  const table = document.getElementById("recordsTable");
-  const tfoot = document.createElement("tfoot");
-  tfoot.innerHTML = `
-        <tr>
-          <td></td>  
-          <td>Cash Total</td>
-          <td>${cashTotal.toFixed(2)}</td>
-        </tr>
-        <tr>
-          <td></td>  
-          <td>Check Total</td>
-          <td>${checkTotal.toFixed(2)}</td>
-        </tr>
-        <tr>
-          <td></td>  
-          <td>Amount Total</td>  
-          <td>${(cashTotal + checkTotal).toFixed(2)}</td>
-        </tr>
-      `;
-  const oldTfoot = table.querySelector("tfoot");
-  if (oldTfoot) {
-    table.removeChild(oldTfoot);
+  const title = document.getElementsByClassName("title-name")[0]; // 获取第一个"title-name"元素
+
+  // 创建或获取包裹div
+  let wrapDiv = title.querySelector("#wrapDiv");
+  if (!wrapDiv) {
+    wrapDiv = document.createElement("div");
+    wrapDiv.id = "wrapDiv";
+    title.appendChild(wrapDiv);
   }
-  table.appendChild(tfoot);
+
+  // 尝试查找span，如果不存在就创建新的
+  const cashTotalSpan =
+    wrapDiv.querySelector("#cashTotal") ||
+    createSpan("cashTotal", wrapDiv, "data-css");
+  const checkTotalSpan =
+    wrapDiv.querySelector("#checkTotal") ||
+    createSpan("checkTotal", wrapDiv, "data-css");
+  const amountTotalSpan =
+    title.querySelector("#amountTotal") || createSpan("amountTotal", title);
+
+  // 更新span的值
+  cashTotalSpan.textContent = `Cash Total: $${cashTotal.toFixed(2)} | `;
+  checkTotalSpan.textContent = `Check Total: $${checkTotal.toFixed(2)}`;
+  amountTotalSpan.textContent = `Amount Total: $${(
+    cashTotal + checkTotal
+  ).toFixed(2)}`;
+}
+
+// 创建新的span，并添加到parent元素中
+function createSpan(id, parent, cssClass) {
+  const span = document.createElement("span");
+  span.id = id;
+  if (cssClass) {
+    span.className = cssClass; // 如果指定了class，则添加到span上
+  }
+  parent.appendChild(span);
+  return span;
 }
 
 function displayRecords() {
@@ -248,55 +263,9 @@ function displayRecords() {
     });
 }
 
-/**
- *
- *  清除JSON文件的数据
- *
- */
-
-function clearRecordsRequest() {
-  fetch("/clear_records", { method: "POST" });
-}
-
-function clearRecordsHandler() {
-  document
-    .getElementById("clear-records-btn")
-    .addEventListener("click", function () {
-      document.querySelector(".main-content").innerHTML = `
-          <div id="divBox">
-            <div id="box">    
-              <h2 class="centered-text">Clear Prompt</h2>
-              <p class="centered-text ">Are You Sure to Clear All Records?</p>
-              <div class="clear-button-group">
-                <button id="confirm-clear-records" class="custom-button button-c">Confirm</button>
-                <button id="cancel-clear-records" class="custom-button button-c">Cancel</button>
-              </div>
-            </div>  
-          </div>`;
-      box.classList.add("active");
-    });
-
-  // 添加事件委托
-  document.body.addEventListener("click", function (event) {
-    if (event.target.id === "confirm-clear-records") {
-      clearRecordsRequest();
-      box.classList.remove("active");
-      box.classList.add("de-active");
-
-      setTimeout(() => {
-        document.querySelector(".main-content").innerHTML = `
-              <p  class="centered-text msgPrompt">Records Has Been Cleared!</p>`;
-      }, 400);
-    } else if (event.target.id === "cancel-clear-records") {
-      box.classList.remove("active");
-      box.classList.add("de-active");
-      setTimeout(() => {
-        document.querySelector(".main-content").innerHTML = `
-              <p class="centered-text msgPrompt">Action Terminated!</p>`;
-      }, 400);
-    }
-  });
-}
+document
+  .getElementById("clear-records-btn")
+  .addEventListener("click", clearRecordsHandler);
 
 /**
  *
@@ -365,37 +334,3 @@ function initCustomDropdown() {
   });
 }
 
-function displayAlert(message, data) {
-  const alertBox = document.createElement("div");
-  alertBox.className = "alert-box alert-enter";
-  alertBox.innerHTML = `
-      <div class="alert-message">${message}${data}</div>
-    `;
-  document.body.appendChild(alertBox);
-
-  // Animation
-  setTimeout(() => {
-    alertBox.className = "alert-box alert-enter-active";
-  }, 0);
-
-  // 进入动画
-  alertBox.className = "alert-box alert-enter";
-  setTimeout(() => {
-    alertBox.className = "alert-box alert-enter-active";
-  }, 0);
-
-  // 退出动画
-  setTimeout(() => {
-    alertBox.className = "alert-box alert-exit-active";
-  }, 2000);
-  setTimeout(() => {
-    document.body.removeChild(alertBox);
-  }, 3000);
-}
-
-/**
- *
- * 上方代码: 功能性的函数
- *
- *
- */

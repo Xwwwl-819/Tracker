@@ -27,7 +27,7 @@
           <button
             id="income-system-btn"
             class="nav-btn"
-            onclick="window.location.href='/'; setActiveButton('income-system-btn')"
+            onclick="window.location.href='/';"
           >
             收入
           </button>
@@ -36,13 +36,14 @@
           <button
             id="absence-system-btn"
             class="nav-btn"
-            onclick="window.location.href='/absence'; setActiveButton('absence-system-btn')"
+            onclick="window.location.href='/absence';"
           >
             缺勤
           </button>
         </li>
       </ul>
     </nav>
+    <main>
     <div id="content" class="container">
       <div id="income-section" class="section">
         <div class="sidebar">
@@ -79,10 +80,11 @@
           </a>
         </div>
       </div>
-      <div class="content t-container">
+    </main>
+      <div class="main-content content t-container">
         <!-- 功能相关的内容将在此处显示 -->
       </div>
 
-    <script src="{{ url_for('static', filename='absence.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='absence.js') }}"></script>
   </body>
 </html>

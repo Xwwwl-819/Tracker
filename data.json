@@ -50,5 +50,42 @@
   "2023-05-03": {
     "absences": 1,
     "weekdays": "Wed"
+  },
+  "2023-05-30": {
+    "absences": 1,
+    "weekdays": "Tue"
+  },
+  "2023-05-31": {
+    "absences": 1,
+    "weekdays": "Wed"
+  },
+  "2023-06-02": {
+    "absences": 1,
+    "weekdays": "Fri"
+  },
+  "2023-06-06": {
+    "absences": 1,
+    "weekdays": "Tue"
+  },
+  "2023-06-07": {
+    "absences": 1,
+    "weekdays": "Wed"
+  },
+  "2023-06-14": {
+    "absences": 1,
+    "weekdays": "Wed"
+  },
+  "2023-06-22": {
+    "absences": 1,
+    "weekdays": "Thu"
+  },
+  "2023-07-04": {
+    "absences": 1,
+    "weekdays": "Tue"
+  },
+  "2023-07-06": {
+    "absences": 1,
+    "weekdays": "Thu"
   }
 }
+{"cash": [{"amount": 1000.0, "time": "2023-05-19"}], "check": [{"amount": 3000.0, "time": "2023-06-20"}]}

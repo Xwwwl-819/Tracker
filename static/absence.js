@@ -1,3 +1,6 @@
+import { clearRecordsHandler } from "./utils.js";
+import { displayAlert } from "./utils.js";
+
 const date = new Date();
 const options = { weekday: "long", month: "long", day: "numeric" };
 const today = date.toLocaleDateString("en-US", options);
@@ -46,7 +49,7 @@ function viewRecordsHandler() {
   const currentDate = new Date();
   document.querySelector(".content").innerHTML = `
         <div class="title absence-record">
-          <h1>absence record
+          <h1 class="title-name">absence record
             <span> ${currentDate}</span>
           </h1>
         </div>
@@ -140,29 +143,33 @@ function displayAbsenceRecords() {
 
         totalAbsence += record.absences;
       }
-      Object.entries(records).forEach(([date, record]) => {
-        createRow(date, record);
-      });
+
+      // Reversing the array so the latest date comes first
+      Object.entries(records)
+        .reverse()
+        .forEach(([date, record]) => {
+          createRow(date, record);
+        });
 
       updateTotals();
     });
 }
+
 function updateTotals() {
-  const table = document.getElementById("recordsTable");
-  const tfoot = document.createElement("tfoot");
-  tfoot.innerHTML = `
-          <tr>  
-            <td></td>
-            <td></td>
-            <td>Total Absence</td>
-            <td>${totalAbsence} Days</td>
-          </tr>
-        `;
-  const oldTfoot = table.querySelector("tfoot");
-  if (oldTfoot) {
-    table.removeChild(oldTfoot);
+  const title = document.getElementsByClassName("title-name")[0]; // 获取第一个"title-name"元素
+
+  // 尝试查找span
+  let totalDiv = title.querySelector("#totalDiv");
+
+  // 如果span不存在，就创建一个新的
+  if (!totalDiv) {
+    totalDiv = document.createElement("span");
+    totalDiv.id = "totalDiv"; // 为新的span添加id，方便下次查找
+    title.appendChild(totalDiv); // 把新的span添加到title元素中
   }
-  table.appendChild(tfoot);
+
+  // 更新span
+  totalDiv.textContent = `Total Absence: ${totalAbsence} days`;
 }
 
 document.getElementById("working-days-btn").addEventListener("click", () => {
@@ -217,101 +224,6 @@ function displayWorkDaysInfo(info) {
     .catch((error) => console.error("Error:", error));
 }
 
-function clearRecordsHandler() {
-  fetch("/absence_clear_records", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((response) => response.json());
-}
-
-// 显示 box
-function showBox() {
-  box.classList.add("active");
-  box.classList.add("absenceMsg");
-}
-
-// 隐藏 box
-function hideBox() {
-  box.classList.add("absenceMsg");
-  box.classList.remove("active");
-}
-
 document
   .getElementById("clear-records-btn")
-  .addEventListener("click", function () {
-    document.querySelector(".content").innerHTML = `
-    
-      <div id="divBox" class="absenceBox">
-        <div id="box">    
-          <h2 class="centered-text">Clear Prompt</h2>
-          <p class="centered-text ">Are You Sure to Clear All Records?</p>
-          <div class="clear-button-group">
-              <button id="confirm-clear-records" class="custom-button button-c">Confirm</button>
-              <button id="cancel-clear-records" class="custom-button button-c">Cancel</button>
-          </div>
-        </div>  
-      </div> 
-   
-          `;
-    const box = document.getElementById("box");
-    showBox();
-    document
-      .getElementById("confirm-clear-records")
-      .addEventListener("click", () => {
-        clearRecordsHandler(); // 在这里调用 clearRecordsHandler 而不是作为事件监听器
-        hideBox();
-        setTimeout(() => {
-          document.querySelector(".content").innerHTML = `
-            <p  class="centered-text msgPrompt">Records Has Been Cleared!</p>
-          `;
-        }, 400);
-      });
-
-    document
-      .getElementById("cancel-clear-records")
-      .addEventListener("click", () => {
-        hideBox();
-        setTimeout(() => {
-          document.querySelector(".content").innerHTML = `
-            <p class="centered-text msgPrompt">Action Terminated!</p>
-          `;
-        }, 400);
-      });
-  });
-function setActiveButton(buttonId) {
-  const navButtons = document.querySelectorAll(".nav-btn");
-
-  navButtons.forEach((button) => {
-    if (button.id === buttonId) {
-      button.classList.add("active");
-    } else {
-      button.classList.remove("active");
-    }
-  });
-}
-
-function displayAlert(message, data) {
-  const alertBox = document.createElement("div");
-  alertBox.className = "alert-box alert-enter";
-  alertBox.innerHTML = `
-    <div class="alert-message">${message}${data}</div>
-  `;
-  document.body.appendChild(alertBox);
-
-  // 进入动画
-  alertBox.className = "alert-box alert-enter";
-  setTimeout(() => {
-    alertBox.className = "alert-box alert-enter-active";
-  }, 0);
-
-  // 退出动画
-  setTimeout(() => {
-    alertBox.className = "alert-box alert-exit-active";
-  }, 2000);
-  setTimeout(() => {
-    document.body.removeChild(alertBox);
-    updatePageContent();
-  }, 3000);
-}
+  .addEventListener("click", clearRecordsHandler);
