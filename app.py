@@ -379,7 +379,8 @@ def view_work_days():
     records = get_absence_records()
     income_record = income_records_data()
     start_date = datetime(2023, 3, 1)
-    end_date = datetime.now()
+    # end_date = datetime.now()
+    end_date = datetime(2023, 9, 11)
     total_days, work_days = calculate_work_days(start_date, end_date, records)
     absence_days = len(records)
     salary = work_days * 200
